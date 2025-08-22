@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">AgroVerify</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- No Internet Dialog strings -->
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="no_internet_message">Please check your internet connection and try again. Make sure your device is connected to Wi-Fi or mobile data.</string>
+    <string name="retry">Retry</string>
+    <string name="settings">Settings</string>
+    <string name="wifi_icon">📶</string>
+
+    <!-- Dashboard strings -->
+    <string name="app_title">AgroVerify</string>
+    <string name="app_subtitle">Agricultural Input Verification</string>
+    <string name="scans_verified">Scans Verified</string>
+    <string name="last_sync">Last Sync</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="verify_authenticity">Verify agricultural input authenticity</string>
+    <string name="verification_history">Verification\nHistory</string>
+    <string name="submit_report">Submit\nReport</string>
+
+    <!-- Product Verification Dialog strings -->
+    <string name="product_verified_message">Product Verified!\n\nSerial ID: %1$s\nProduct ID: %2$s\nBatch ID: %3$s\n\nThis product is authentic and valid.</string>
+    <string name="product_invalid_message">Product Not Valid\n\nThis product could not be verified or is counterfeit.</string>
+    <string name="verification_dialog_title">Product Verification</string>
+    <string name="close">Close</string>
+
+    <!-- New detailed verification strings -->
+    <string name="product_verified_title">Product Verified</string>
+    <string name="product_verified_status">This product is authentic and valid</string>
+    <string name="product_invalid_title">Product Not Valid</string>
+    <string name="product_invalid_status">This product could not be verified or is counterfeit</string>
+    <string name="serial_id_format">Serial ID: %1$s</string>
+    <string name="product_id_format">Product ID: %1$s</string>
+    <string name="batch_id_format">Batch ID: %1$s</string>
+    <string name="not_available">N/A</string>
+
+    <!-- System Status strings -->
+    <string name="system_status">System Status</string>
+    <string name="database_synchronized">Database synchronized</string>
+    <string name="status_online">Online</string>
+    <string name="app_version">App version 1.2.3 (Latest)</string>
+    <string name="sample_scan_count">127</string>
+    <string name="sample_last_sync">2 min ago</string>
+
+    <!-- Content descriptions for accessibility -->
+    <string name="cd_agriculture_icon">Agriculture icon</string>
+    <string name="cd_sync_icon">Sync status icon</string>
+    <string name="cd_qr_scanner_icon">QR code scanner icon</string>
+    <string name="cd_history_icon">History icon</string>
+    <string name="cd_report_icon">Report icon</string>
+    <string name="cd_verified_check_icon">Verified check icon</string>
+
+    <!-- QR Scan Activity strings -->
+    <string name="qr_scan_title">Scan QR Code</string>
+    <string name="qr_scan_subtitle">Point camera at QR code</string>
+    <string name="scan_instruction">Position QR code within frame</string>
+    <string name="ready_to_scan">Ready to scan</string>
+    <string name="scanning_in_progress">Scanning...</string>
+    <string name="processing_qr_code">Processing QR code...</string>
+    <string name="from_gallery">Gallery</string>
+    <string name="manual_entry">Manual</string>
+    <string name="cd_back_button">Back</string>
+    <string name="cd_flashlight_toggle">Toggle flashlight</string>
+    <string name="flashlight_on">Flashlight on</string>
+    <string name="flashlight_off">Flashlight off</string>
+    <string name="camera_permission_required">Camera permission is required to scan QR codes</string>
+    <string name="qr_code_detected">QR code detected</string>
+    <string name="invalid_qr_code">Invalid QR code format</string>
+
+</resources>
