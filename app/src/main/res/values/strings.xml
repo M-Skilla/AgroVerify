@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">AgroVerify</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">AgriVerify</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- No Internet Dialog strings -->
@@ -11,13 +10,13 @@
     <string name="wifi_icon">📶</string>
 
     <!-- Dashboard strings -->
-    <string name="app_title">AgroVerify</string>
+    <string name="app_title">AgriVerify</string>
     <string name="app_subtitle">Agricultural Input Verification</string>
     <string name="scans_verified">Scans Verified</string>
     <string name="last_sync">Last Sync</string>
     <string name="scan_qr_code">Scan QR Code</string>
     <string name="verify_authenticity">Verify agricultural input authenticity</string>
-    <string name="verification_history">Verification\nHistory</string>
+    <string name="verification_history">Verification History</string>
     <string name="submit_report">Submit\nReport</string>
 
     <!-- Product Verification Dialog strings -->
@@ -57,8 +56,8 @@
     <string name="qr_scan_subtitle">Point camera at QR code</string>
     <string name="scan_instruction">Position QR code within frame</string>
     <string name="ready_to_scan">Ready to scan</string>
-    <string name="scanning_in_progress">Scanning...</string>
-    <string name="processing_qr_code">Processing QR code...</string>
+    <string name="scanning_in_progress">Scanning…</string>
+    <string name="processing_qr_code">Processing QR code…</string>
     <string name="from_gallery">Gallery</string>
     <string name="manual_entry">Manual</string>
     <string name="cd_back_button">Back</string>
@@ -69,4 +68,31 @@
     <string name="qr_code_detected">QR code detected</string>
     <string name="invalid_qr_code">Invalid QR code format</string>
 
+    <!-- Specific Error Messages -->
+    <string name="error_not_agro_input">Invalid QR Code</string>
+    <string name="error_not_agro_input_message">This QR code is not for an agricultural input product. Please scan a valid AgroVerify product code.</string>
+    <string name="error_network_failure">Network Error</string>
+    <string name="error_network_failure_message">Unable to verify product due to network connectivity issues. Please check your internet connection and try again.</string>
+    <string name="error_signature_verification">Invalid Product</string>
+    <string name="error_signature_verification_message">This product signature is invalid. The product may be counterfeit or the QR code has been tampered with.</string>
+    <string name="error_server_verification">Server Error</string>
+    <string name="error_server_verification_message">Unable to verify product with our servers. Please try again later or contact support if the problem persists.</string>
+    <string name="error_product_not_found">Product Not Found</string>
+    <string name="error_product_not_found_message">This product or batch ID does not exist in our database. The product may be invalid or not registered.</string>
+    <string name="error_scan_event_failed">Recording Error</string>
+    <string name="error_scan_event_failed_message">Product verification completed but failed to record the scan event. This may be due to invalid product or batch information.</string>
+    <string name="error_malformed_qr">Unreadable QR Code</string>
+    <string name="error_malformed_qr_message">The QR code format is not recognized or corrupted. Please ensure the code is clear and try scanning again.</string>
+    <string name="serial_string">Serial:</string>
+    <string name="null_string">null</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="subtitle">Verify Agricultural Products with Confidence</string>
+    <string name="history_subtitle">View your past scans and detailed reports</string>
+    <string name="track_your_scan_results">Track your scan results</string>
+    <string name="total_scans">Total Scans</string>
+    <string name="verified">Verified</string>
+    <string name="failed">Failed</string>
+    <string name="all">All</string>
+    <string name="start_scanning_qr_codes_to_see_history">Start scanning QR codes to see history</string>
+    <string name="loading_history">Loading history...</string>
 </resources>

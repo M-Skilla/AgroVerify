@@ -1,6 +1,7 @@
 package com.group.agroverify;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.group.agroverify.adapter.VerificationHistoryAdapter;
 import com.group.agroverify.database.entities.VerificationHistory;
 import com.group.agroverify.service.VerificationHistoryService;
+import com.group.agroverify.utils.LocaleHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -306,6 +308,11 @@ public class VerificationHistoryActivity extends AppCompatActivity implements Ve
             verificationHistoryService.dispose();
         }
         disposables.clear();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
     }
 
     private enum FilterType {

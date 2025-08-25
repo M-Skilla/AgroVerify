@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.Preview;
@@ -37,12 +39,14 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 import com.group.agroverify.dtos.PublicKeyRequest;
+import com.group.agroverify.dtos.ScanEventRequest;
 import com.group.agroverify.dtos.ScanEventResponse;
 import com.group.agroverify.models.Keystore;
 import com.group.agroverify.service.KeyService;
 import com.group.agroverify.service.VerificationHistoryService;
 import com.group.agroverify.utils.ApiClient;
 import com.group.agroverify.utils.KeyUtils;
+import com.group.agroverify.utils.LocaleHelper;
 import com.group.agroverify.fragment.ProductVerificationDialog;
 
 import org.json.JSONObject;
@@ -70,10 +74,12 @@ public class QrScanActivity extends AppCompatActivity {
 
     // Camera and ML Kit
     private ProcessCameraProvider cameraProvider;
+    private Camera camera;
     private BarcodeScanner barcodeScanner;
     private ExecutorService cameraExecutor;
     private CameraManager cameraManager;
     private String cameraId;
+    private boolean hasFlash = false;
 
     // State
     private boolean isFlashlightOn = false;
@@ -85,6 +91,11 @@ public class QrScanActivity extends AppCompatActivity {
 
     // Activity Result Launcher for gallery
     private ActivityResultLauncher<Intent> galleryLauncher;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,10 +235,13 @@ public class QrScanActivity extends AppCompatActivity {
             // Unbind all use cases before rebinding
             cameraProvider.unbindAll();
 
-            // Bind use cases to camera
-            cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
+            // Bind use cases to camera and store camera instance
+            camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
 
-            // Get camera ID for flashlight control
+            // Check if camera has flash capability
+            hasFlash = camera.getCameraInfo().hasFlashUnit();
+
+            // Get camera ID for fallback flashlight control
             getCameraId();
 
         } catch (Exception e) {
@@ -242,6 +256,10 @@ public class QrScanActivity extends AppCompatActivity {
             String[] cameraIds = cameraManager.getCameraIdList();
             if (cameraIds.length > 0) {
                 cameraId = cameraIds[0]; // Use back camera (usually index 0)
+
+                // Check if the camera has flash capability
+                CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraId);
+                hasFlash = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
             }
         } catch (CameraAccessException e) {
             Log.e(TAG, "Failed to get camera ID", e);
@@ -268,18 +286,29 @@ public class QrScanActivity extends AppCompatActivity {
     private void processQrCode(String qrContent) {
         // Simulate processing delay
         new Thread(() -> {
+            String extractedSerialId = null;
             try {
-
-
                 String kid = KeyUtils.extractKid(qrContent.trim());
                 String signature = KeyUtils.extractSignature(qrContent.trim());
                 String data = KeyUtils.extractData(qrContent.trim());
+
+                // Try to extract serial ID early for error tracking
+                try {
+                    JSONObject payload = KeyUtils.extractPayload(qrContent.trim());
+                    extractedSerialId = payload.optString("serial", null);
+                } catch (Exception e) {
+                    Log.w(TAG, "Could not extract serial ID for error tracking", e);
+                }
+
                 KeyService service = ApiClient.getRetrofit().create(KeyService.class);
                 Call<Keystore> call = service.getPublicKeyByKid(new PublicKeyRequest(kid));
 
                 Log.d(TAG, "processQrCode: Before API Call");
                 Log.i(TAG, "processQrCode: Data: " + data);
                 Log.i(TAG, "processQrCode: Signature: " + signature);
+
+                // Create final variable for use in callbacks
+                final String finalExtractedSerialId = extractedSerialId;
 
                 call.enqueue(new Callback<Keystore>() {
                     @Override
@@ -292,10 +321,8 @@ public class QrScanActivity extends AppCompatActivity {
                                 System.out.println("Public Key" + publicKey);
                                 Log.i(TAG, "onResponse: PublicKey" + publicKey);
 
-                                // Perform verification after public key is loaded
                                 boolean legit = KeyUtils.verifySignature(data, signature, publicKey);
 
-                                // Extract product details from token payload
                                 String serialId = null;
                                 String productId = null;
                                 String batchId = null;
@@ -309,6 +336,12 @@ public class QrScanActivity extends AppCompatActivity {
                                         Log.d(TAG, "Extracted payload - Serial: " + serialId + ", Product: " + productId + ", Batch: " + batchId);
                                     } catch (Exception e) {
                                         Log.e(TAG, "Failed to extract payload data", e);
+                                        handleVerificationError(
+                                                getString(R.string.error_not_agro_input),
+                                                getString(R.string.error_not_agro_input_message),
+                                                finalExtractedSerialId
+                                        );
+                                        return;
                                     }
                                 }
 
@@ -318,16 +351,13 @@ public class QrScanActivity extends AppCompatActivity {
                                 final String finalProductId = productId;
                                 final String finalBatchId = batchId;
 
-                                // Record verification result in database
-                                // Note: We only record verifications where we got structured data (serialId exists)
-                                // This excludes malformed QR codes as per requirements
+                                // Record verification result using real API call
                                 if (finalSerialId != null) {
-                                    // Get phone number using proper TelephonyManager instance
+                                    // Get phone number for scan event
                                     TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                                     String phoneNumber = "unknown";
                                     if (telephonyManager != null) {
                                         try {
-                                            // Note: This requires READ_PHONE_STATE permission
                                             phoneNumber = telephonyManager.getLine1Number();
                                             if (phoneNumber == null || phoneNumber.isEmpty()) {
                                                 phoneNumber = "unknown";
@@ -338,55 +368,127 @@ public class QrScanActivity extends AppCompatActivity {
                                         }
                                     }
 
-                                    // Create a mock ScanEventResponse for verification recording
-                                    // In a real implementation, this would come from an actual scan event API call
-                                    ScanEventResponse mockResponse = new ScanEventResponse(
-                                        "local_" + System.currentTimeMillis(), // mock ID
-                                        finalSerialId,
-                                        String.valueOf(System.currentTimeMillis()), // current timestamp
-                                        "local", // mock IP
-                                        phoneNumber,
-                                        "AgroVerify Android App"
-                                    );
+                                    // Make real API call to addScanEvent
+                                    final String finalPhoneNumber = phoneNumber;
+                                    ScanEventRequest scanRequest = new ScanEventRequest(finalSerialId, finalPhoneNumber);
+                                    Call<ScanEventResponse> scanCall = service.addScanEvent(scanRequest);
 
-                                    if (isLegit) {
-                                        // Record successful verification
-                                        verificationHistoryService.recordSuccessfulVerification(
-                                            finalSerialId,
-                                            mockResponse.getMsisdn(),
-                                            mockResponse
-                                        );
-                                    } else {
-                                        // Record failed verification (valid QR structure but verification failed)
-                                        verificationHistoryService.recordFailedVerification(
-                                            finalSerialId,
-                                            mockResponse.getMsisdn(),
-                                            "Signature verification failed - invalid or tampered product"
-                                        );
-                                    }
+                                    scanCall.enqueue(new Callback<ScanEventResponse>() {
+                                        @Override
+                                        public void onResponse(Call<ScanEventResponse> call, Response<ScanEventResponse> response) {
+                                            if (response.isSuccessful() && response.body() != null) {
+                                                Log.d(TAG, "Scan event recorded successfully");
+                                                ScanEventResponse scanResponse = response.body();
+
+                                                if (isLegit) {
+                                                    // Record successful verification in local database
+                                                    verificationHistoryService.recordSuccessfulVerification(
+                                                        finalSerialId,
+                                                        scanResponse.getMsisdn(),
+                                                        scanResponse
+                                                    );
+                                                } else {
+                                                    // Record failed verification (valid QR structure but signature verification failed)
+                                                    verificationHistoryService.recordFailedVerification(
+                                                        finalSerialId,
+                                                        scanResponse.getMsisdn(),
+                                                        "Signature verification failed - invalid or tampered product"
+                                                    );
+                                                }
+                                            } else {
+                                                // API call failed - likely means product/batch doesn't exist (counterfeit)
+                                                Log.e(TAG, "addScanEvent failed - Response code: " + response.code());
+                                                String errorMsg = "Product or batch not found in database - likely counterfeit";
+
+                                                // Record failed verification for counterfeit product
+                                                verificationHistoryService.recordFailedVerification(
+                                                    finalSerialId,
+                                                    finalPhoneNumber,
+                                                    errorMsg
+                                                );
+
+                                                // Override verification result to show as counterfeit
+                                                runOnUiThread(() -> {
+                                                    showLoadingOverlay(false);
+                                                    scanCount++;
+                                                    updateScanCount();
+                                                    updateScanStatus("Ready to scan");
+
+                                                    // Show counterfeit product dialog
+                                                    showVerificationDialog(false, finalSerialId, finalProductId, finalBatchId,
+                                                        "Counterfeit Product", "This product was not found in our database and is likely counterfeit.");
+                                                });
+                                                return;
+                                            }
+
+                                            // Show normal verification result
+                                            runOnUiThread(() -> {
+                                                showLoadingOverlay(false);
+                                                scanCount++;
+                                                updateScanCount();
+                                                updateScanStatus("Ready to scan");
+
+                                                Log.d(TAG, "processQrCode: IS LEGIT = " + isLegit);
+                                                showVerificationDialog(isLegit, finalSerialId, finalProductId, finalBatchId, null, null);
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ScanEventResponse> call, Throwable throwable) {
+                                            Log.e(TAG, "addScanEvent API call failed", throwable);
+
+                                            // Record failed verification due to network issue
+                                            verificationHistoryService.recordFailedVerification(
+                                                finalSerialId,
+                                                finalPhoneNumber,
+                                                "Network error during scan event recording: " + throwable.getMessage()
+                                            );
+
+                                            // Show verification result anyway, but with a warning
+                                            runOnUiThread(() -> {
+                                                showLoadingOverlay(false);
+                                                scanCount++;
+                                                updateScanCount();
+                                                updateScanStatus("Ready to scan");
+
+                                                // Show verification with network error warning
+                                                String warningMsg = isLegit ?
+                                                    "Signature verified, but could not verify product in database due to network error." :
+                                                    "Invalid signature detected.";
+                                                showVerificationDialog(isLegit, finalSerialId, finalProductId, finalBatchId,
+                                                    "Network Error", warningMsg);
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    // No serial ID available, just show result without recording
+                                    runOnUiThread(() -> {
+                                        showLoadingOverlay(false);
+                                        scanCount++;
+                                        updateScanCount();
+                                        updateScanStatus("Ready to scan");
+
+                                        Log.d(TAG, "processQrCode: IS LEGIT = " + isLegit);
+                                        showVerificationDialog(isLegit, finalSerialId, finalProductId, finalBatchId, null, null);
+                                    });
                                 }
-
-                                runOnUiThread(() -> {
-                                    showLoadingOverlay(false);
-                                    scanCount++;
-                                    updateScanCount();
-                                    updateScanStatus("Ready to scan");
-
-                                    // Show verification dialog
-                                    Log.d(TAG, "processQrCode: IS LEGIT = " + isLegit);
-                                    showVerificationDialog(isLegit, finalSerialId, finalProductId, finalBatchId);
-
-                                    // Scanning will be re-enabled when dialog is dismissed
-                                });
                             } else {
                                 // API call failed or returned empty response
                                 Log.e(TAG, "Failed to fetch Public Key - Response code: " + response.code());
-                                handleVerificationError("Failed to fetch public key from server");
+                                handleVerificationError(
+                                        getString(R.string.error_server_verification),
+                                        getString(R.string.error_signature_verification_message),
+                                        finalExtractedSerialId
+                                );
                             }
                         } catch (Exception e) {
                             // Error during signature verification or key loading
                             Log.e(TAG, "Error during signature verification", e);
-                            handleVerificationError("Failed to verify product signature");
+                            handleVerificationError(
+                                    getString(R.string.error_signature_verification),
+                                    getString(R.string.error_signature_verification_message),
+                                    finalExtractedSerialId
+                            );
                         }
                     }
 
@@ -394,39 +496,50 @@ public class QrScanActivity extends AppCompatActivity {
                     public void onFailure(Call<Keystore> call, Throwable throwable) {
                         // Network or API call failure
                         Log.e(TAG, "API call failed", throwable);
-                        handleVerificationError("Network error - unable to verify product");
+                        handleVerificationError(
+                                getString(R.string.error_network_failure),
+                                getString(R.string.error_network_failure_message),
+                                finalExtractedSerialId
+                        );
                     }
                 });
             } catch (Exception e) {
                 Log.e(TAG, "Error processing QR code - invalid token format", e);
-                handleVerificationError("Invalid QR code format");
+                handleVerificationError(
+                        getString(R.string.error_not_agro_input),
+                        getString(R.string.error_not_agro_input_message),
+                        extractedSerialId
+                );
             }
         }).start();
     }
 
     private void toggleFlashlight() {
-        if (cameraId != null) {
+        if (camera != null && hasFlash) {
             try {
-                cameraManager.setTorchMode(cameraId, !isFlashlightOn);
+                // Use CameraX torch control
+                camera.getCameraControl().enableTorch(!isFlashlightOn);
                 isFlashlightOn = !isFlashlightOn;
                 updateFlashlightButton();
 
                 String message = isFlashlightOn ? "Flashlight on" : "Flashlight off";
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
-            } catch (CameraAccessException e) {
+            } catch (Exception e) {
                 Log.e(TAG, "Failed to toggle flashlight", e);
                 Toast.makeText(this, "Failed to toggle flashlight", Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(this, "Flashlight not available", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void updateFlashlightButton() {
         if (isFlashlightOn) {
-            btnFlashlight.setIconResource(R.drawable.ic_flashlight_on);
+            btnFlashlight.setIconResource(R.drawable.flashlight_on);
             btnFlashlight.setIconTintResource(R.color.md_theme_primary);
         } else {
-            btnFlashlight.setIconResource(R.drawable.ic_flashlight_off);
+            btnFlashlight.setIconResource(R.drawable.flashlight_off);
             btnFlashlight.setIconTintResource(R.color.md_theme_onSurfaceVariant);
         }
     }
@@ -459,8 +572,8 @@ public class QrScanActivity extends AppCompatActivity {
         }
     }
 
-    private void showVerificationDialog(boolean legit, String serialId, String productId, String batchId) {
-        ProductVerificationDialog dialog = ProductVerificationDialog.newInstance(legit, serialId, productId, batchId);
+    private void showVerificationDialog(boolean legit, String serialId, String productId, String batchId, String errorTitle, String errorMsg) {
+        ProductVerificationDialog dialog = ProductVerificationDialog.newInstance(legit, serialId, productId, batchId, errorTitle, errorMsg);
 
         // Set up dismiss callback to re-enable scanning only when dialog is dismissed
         dialog.setOnDismissCallback(() -> {
@@ -472,18 +585,56 @@ public class QrScanActivity extends AppCompatActivity {
     }
 
     /**
-     * Handles verification errors by showing the invalid product dialog
-     * @param errorMessage The error message to log
+     * Handles verification errors by showing the invalid product dialog and recording failed verification
+     * @param errorTitle The error title to display
+     * @param errorMessage The error message to log and display
      */
-    private void handleVerificationError(String errorMessage) {
+    private void handleVerificationError(String errorTitle, String errorMessage) {
+        handleVerificationError(errorTitle, errorMessage, null);
+    }
+
+    /**
+     * Handles verification errors by showing the invalid product dialog and recording failed verification
+     * @param errorTitle The error title to display
+     * @param errorMessage The error message to log and display
+     * @param serialId The serial ID if available for recording failed verification
+     */
+    private void handleVerificationError(String errorTitle, String errorMessage, String serialId) {
         Log.e(TAG, "Verification error: " + errorMessage);
+
+        // Record failed verification if we have a serial ID
+        if (serialId != null && !serialId.isEmpty()) {
+            try {
+                TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                String phoneNumber = "unknown";
+                if (telephonyManager != null) {
+                    try {
+                        phoneNumber = telephonyManager.getLine1Number();
+                        if (phoneNumber == null || phoneNumber.isEmpty()) {
+                            phoneNumber = "unknown";
+                        }
+                    } catch (SecurityException e) {
+                        Log.w(TAG, "No permission to read phone number", e);
+                        phoneNumber = "unknown";
+                    }
+                }
+
+                verificationHistoryService.recordFailedVerification(
+                    serialId,
+                    phoneNumber,
+                    errorMessage
+                );
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to record failed verification", e);
+            }
+        }
 
         runOnUiThread(() -> {
             showLoadingOverlay(false);
             updateScanStatus("Ready to scan");
 
             // Show invalid product dialog for any verification error
-            showVerificationDialog(false, null, null, null);
+            showVerificationDialog(false, serialId, null, null, errorTitle, errorMessage);
 
             // Scanning will be re-enabled when dialog is dismissed via the dismiss listener
         });
@@ -523,12 +674,12 @@ public class QrScanActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         // Turn off flashlight when activity is paused
-        if (isFlashlightOn && cameraId != null) {
+        if (isFlashlightOn && camera != null) {
             try {
-                cameraManager.setTorchMode(cameraId, false);
+                camera.getCameraControl().enableTorch(false);
                 isFlashlightOn = false;
                 updateFlashlightButton();
-            } catch (CameraAccessException e) {
+            } catch (Exception e) {
                 Log.e(TAG, "Failed to turn off flashlight", e);
             }
         }

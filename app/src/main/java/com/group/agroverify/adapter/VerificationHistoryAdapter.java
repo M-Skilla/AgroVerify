@@ -82,7 +82,7 @@ public class VerificationHistoryAdapter extends RecyclerView.Adapter<Verificatio
 
         public void bind(VerificationHistory item, OnItemClickListener listener) {
             // Set serial number
-            tvSerial.setText(item.getSerial());
+            tvSerial.setText(item.getSerial().toUpperCase());
 
             // Set timestamp
             Date scanDate = new Date(item.getScanTimestamp());

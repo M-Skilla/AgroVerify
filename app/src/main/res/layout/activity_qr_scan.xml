@@ -135,7 +135,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:checkable="true"
-                app:icon="@drawable/ic_flashlight_off"
+                app:icon="@drawable/flashlight_off"
                 app:iconTint="@color/md_theme_onSurfaceVariant"
                 android:contentDescription="@string/cd_flashlight_toggle" />
 

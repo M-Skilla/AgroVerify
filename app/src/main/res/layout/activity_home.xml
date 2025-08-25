@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="24dp"
-        android:paddingBottom="24dp"
+
         tools:context=".HomeActivity">
 
         <!-- Welcome Header -->
@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Welcome to"
+            android:text="@string/welcome_to"
             android:textColor="@color/md_theme_onSurfaceVariant"
             android:textSize="16sp"
             android:fontFamily="@font/jakarta_regular"
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="AgroVerify"
+            android:text="@string/app_name"
             android:textColor="@color/md_theme_primary"
             android:textSize="32sp"
             android:fontFamily="@font/jakarta_bold"
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Verify Agricultural Products with Confidence"
+            android:text="@string/subtitle"
             android:textColor="@color/md_theme_onSurfaceVariant"
             android:textSize="14sp"
             android:fontFamily="@font/jakarta_medium"
@@ -61,6 +61,7 @@
             android:layout_height="150dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="30dp"
+            android:contentDescription="@string/null_string"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subtitle"
             app:srcCompat="@drawable/onboarding" />
@@ -124,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="Scan QR Code"
+                        android:text="@string/scan_qr_code"
                         android:textColor="@color/md_theme_onPrimaryContainer"
                         android:textSize="24sp"
                         android:fontFamily="@font/jakarta_bold"
@@ -132,18 +133,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Instantly verify product authenticity and view detailed information"
-                        android:textColor="@color/md_theme_onPrimaryContainer"
-                        android:textSize="14sp"
-                        android:textAlignment="center"
-                        android:fontFamily="@font/jakarta_medium"
-                        app:layout_constraintTop_toBottomOf="@id/scanTitle"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -197,7 +186,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Verification History"
+                            android:text="@string/verification_history"
                             android:textColor="@color/md_theme_onSurface"
                             android:textSize="20sp"
                             android:fontFamily="@font/jakarta_semibold" />
@@ -206,7 +195,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="View your past scans and detailed reports"
+                            android:text="@string/history_subtitle"
                             android:textColor="@color/md_theme_onSurfaceVariant"
                             android:textSize="14sp"
                             android:fontFamily="@font/jakarta_regular" />
@@ -219,6 +208,23 @@
 
         </LinearLayout>
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/languageBtn"
+            app:shapeAppearance="@style/CircularImage"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/null_string"
+            android:padding="2dp"
+            android:layout_marginEnd="20dp"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/tanzania_flag"
+            android:elevation="30dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="@color/md_theme_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>

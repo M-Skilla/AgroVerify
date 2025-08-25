@@ -16,14 +16,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        >
 
         <!-- Status Indicator -->
         <View
             android:id="@+id/statusIndicator"
-            android:layout_width="4dp"
+            android:layout_width="12dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/status_indicator_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +34,9 @@
             android:id="@+id/mainContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:orientation="vertical"
+            android:padding="16dp"
             app:layout_constraintEnd_toStartOf="@id/actionButton"
             app:layout_constraintStart_toEndOf="@id/statusIndicator"
             app:layout_constraintTop_toTopOf="parent">
@@ -55,6 +56,7 @@
                     android:tint="@color/md_theme_primary"
                     android:contentDescription="Product Serial"
                     tools:ignore="UseAppTint" />
+
 
                 <TextView
                     android:id="@+id/tvSerial"

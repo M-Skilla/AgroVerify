@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Text Appearance for Chips with Jakarta Font -->
+    <style name="TextAppearance.Chip.Jakarta" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">@font/jakarta_medium</item>
+        <item name="android:fontFamily">@font/jakarta_medium</item>
+    </style>
+
+    <!-- Custom Chip Style with Jakarta Font -->
+    <style name="Widget.App.Chip.Filter.Jakarta" parent="Widget.Material3.Chip.Filter">
+        <item name="android:textAppearance">@style/TextAppearance.Chip.Jakarta</item>
+    </style>
+
+    <style name="CircularImage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>
+

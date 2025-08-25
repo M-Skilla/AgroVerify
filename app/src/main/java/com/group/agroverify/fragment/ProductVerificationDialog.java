@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.DialogFragment;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -33,11 +34,15 @@ public class ProductVerificationDialog extends DialogFragment {
     private static final String ARG_SERIAL_ID = "serial_id";
     private static final String ARG_PRODUCT_ID = "product_id";
     private static final String ARG_BATCH_ID = "batch_id";
+    private static final String ARG_ERROR_TITLE = "error_title";
+    private static final String ARG_ERROR_MSG = "error_msg";
 
     private boolean isValid;
     private String serialId;
     private String productId;
     private String batchId;
+    private String errorMsg;
+    private String errorTitle;
 
     private LottieAnimationView animationView;
     private TextView titleText;
@@ -54,13 +59,16 @@ public class ProductVerificationDialog extends DialogFragment {
 
     private OnDismissCallback dismissCallback;
 
-    public static ProductVerificationDialog newInstance(boolean isValid, String serialId, String productId, String batchId) {
+    public static ProductVerificationDialog newInstance(boolean isValid, String serialId, String productId, String batchId, String errorTitle, String errorMsg) {
         ProductVerificationDialog dialog = new ProductVerificationDialog();
+
         Bundle args = new Bundle();
         args.putBoolean(ARG_IS_VALID, isValid);
         args.putString(ARG_SERIAL_ID, serialId);
         args.putString(ARG_PRODUCT_ID, productId);
         args.putString(ARG_BATCH_ID, batchId);
+        args.putString(ARG_ERROR_TITLE, errorTitle);
+        args.putString(ARG_ERROR_MSG, errorMsg);
         dialog.setArguments(args);
         return dialog;
     }
@@ -77,6 +85,8 @@ public class ProductVerificationDialog extends DialogFragment {
             serialId = getArguments().getString(ARG_SERIAL_ID);
             productId = getArguments().getString(ARG_PRODUCT_ID);
             batchId = getArguments().getString(ARG_BATCH_ID);
+            errorTitle = getArguments().getString(ARG_ERROR_TITLE);
+            errorMsg = getArguments().getString(ARG_ERROR_MSG);
         }
     }
 
@@ -141,8 +151,8 @@ public class ProductVerificationDialog extends DialogFragment {
         animationView.playAnimation();
 
         // Set error texts
-        titleText.setText(R.string.product_invalid_title);
-        statusText.setText(R.string.product_invalid_status);
+        titleText.setText(errorTitle);
+        statusText.setText(errorMsg);
 
         // Hide product details for invalid products
         detailsContainer.setVisibility(View.GONE);

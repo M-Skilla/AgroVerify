@@ -1,0 +1,98 @@
+<resources>
+    <string name="app_name">AgriVerify</string>
+    <string name="hello_blank_fragment">Halo kipande tupu</string>
+
+    <!-- No Internet Dialog strings -->
+    <string name="no_internet_connection">Hakuna Intaneti</string>
+    <string name="no_internet_message">Tafadhali angalia muunganisho wako wa intaneti na ujaribu tena. Hakikisha kifaa chako kimeunganishwa kwa Wi-Fi au data ya simu.</string>
+    <string name="retry">Jaribu Tena</string>
+    <string name="settings">Mipangilio</string>
+    <string name="wifi_icon">📶</string>
+
+    <!-- Dashboard strings -->
+    <string name="app_title">AgriVerify</string>
+    <string name="app_subtitle">Hakikisha Bidhaa za Kilimo</string>
+    <string name="scans_verified">Skani Zilizothibitishwa</string>
+    <string name="last_sync">Ulinganifu wa Mwisho</string>
+    <string name="scan_qr_code">Skani QR Code</string>
+    <string name="verify_authenticity">Thibitisha uhalisi wa bidhaa za kilimo</string>
+    <string name="verification_history">Historia ya Uhakiki</string>
+    <string name="submit_report">Tuma\nRipoti</string>
+
+    <!-- Product Verification Dialog strings -->
+    <string name="product_verified_message">Bidhaa Imehakikishwa!\n\nSerial ID: %1$s\nProduct ID: %2$s\nBatch ID: %3$s\n\nBidhaa hii ni halisi na salama.</string>
+    <string name="product_invalid_message">Bidhaa Haihalaliki\n\nBidhaa hii haiwezi kuthibitishwa au ni bandia.</string>
+    <string name="verification_dialog_title">Uhakiki wa Bidhaa</string>
+    <string name="close">Funga</string>
+
+    <!-- New detailed verification strings -->
+    <string name="product_verified_title">Bidhaa Imehakikishwa</string>
+    <string name="product_verified_status">Bidhaa hii ni halisi na salama</string>
+    <string name="product_invalid_title">Bidhaa Haihalaliki</string>
+    <string name="product_invalid_status">Bidhaa hii haiwezi kuthibitishwa au ni bandia</string>
+    <string name="serial_id_format">Serial ID: %1$s</string>
+    <string name="product_id_format">Product ID: %1$s</string>
+    <string name="batch_id_format">Batch ID: %1$s</string>
+    <string name="not_available">Haipo</string>
+
+    <!-- System Status strings -->
+    <string name="system_status">Hali ya Mfumo</string>
+    <string name="database_synchronized">Hifadhidata imelinganishwa</string>
+    <string name="status_online">Mtandaoni</string>
+    <string name="app_version">Toleo la App 1.2.3 (Hivi Karibuni)</string>
+    <string name="sample_scan_count">127</string>
+    <string name="sample_last_sync">Dakika 2 zilizopita</string>
+
+    <!-- Content descriptions for accessibility -->
+    <string name="cd_agriculture_icon">Ikoni ya kilimo</string>
+    <string name="cd_sync_icon">Ikoni ya hali ya ulinganifu</string>
+    <string name="cd_qr_scanner_icon">Ikoni ya skana ya QR code</string>
+    <string name="cd_history_icon">Ikoni ya historia</string>
+    <string name="cd_report_icon">Ikoni ya ripoti</string>
+    <string name="cd_verified_check_icon">Ikoni ya alama ya kuthibitishwa</string>
+
+    <!-- QR Scan Activity strings -->
+    <string name="qr_scan_title">Skani QR Code</string>
+    <string name="qr_scan_subtitle">Lenga kamera kwenye QR code</string>
+    <string name="scan_instruction">Weka QR code ndani ya fremu</string>
+    <string name="ready_to_scan">Tayari kuskani</string>
+    <string name="scanning_in_progress">Inaskani…</string>
+    <string name="processing_qr_code">Inachakata QR code…</string>
+    <string name="from_gallery">Kutoka Maktaba</string>
+    <string name="manual_entry">Kwa Mkono</string>
+    <string name="cd_back_button">Rudi</string>
+    <string name="cd_flashlight_toggle">Washa/Zima Taa</string>
+    <string name="flashlight_on">Taa imewashwa</string>
+    <string name="flashlight_off">Taa imezimwa</string>
+    <string name="camera_permission_required">Ruhusa ya kamera inahitajika skani QR code</string>
+    <string name="qr_code_detected">QR code imetambuliwa</string>
+    <string name="invalid_qr_code">QR code si sahihi</string>
+
+    <!-- Specific Error Messages -->
+    <string name="error_not_agro_input">QR Code Si Sahihi</string>
+    <string name="error_not_agro_input_message">QR code hii si ya bidhaa za kilimo. Tafadhali skani code halali ya AgroVerify.</string>
+    <string name="error_network_failure">Hitilafu ya Mtandao</string>
+    <string name="error_network_failure_message">Haiwezi kuthibitisha bidhaa kwa sababu ya tatizo la mtandao. Tafadhali angalia intaneti yako na ujaribu tena.</string>
+    <string name="error_signature_verification">Bidhaa Haihalaliki</string>
+    <string name="error_signature_verification_message">Sahihi ya bidhaa hii si halali. Bidhaa inaweza kuwa bandia au QR code imebadilishwa.</string>
+    <string name="error_server_verification">Hitilafu ya Seva</string>
+    <string name="error_server_verification_message">Haiwezi kuthibitisha bidhaa na seva yetu. Jaribu tena baadaye au wasiliana na msaada.</string>
+    <string name="error_product_not_found">Bidhaa Haipo</string>
+    <string name="error_product_not_found_message">Bidhaa hii au kitambulisho cha batch hakipo kwenye hifadhidata yetu. Inaweza kuwa haijasajiliwa au ni batili.</string>
+    <string name="error_scan_event_failed">Hitilafu ya Kurekodi</string>
+    <string name="error_scan_event_failed_message">Uhakiki umekamilika lakini tukio la skani halikurekodiwa. Angalia taarifa za bidhaa au batch.</string>
+    <string name="error_malformed_qr">QR Code Haikusomeki</string>
+    <string name="error_malformed_qr_message">QR code haiwezi kusomeka au imeharibika. Hakikisha code iko wazi na ujaribu tena.</string>
+    <string name="serial_string">Nambari ya Bidhaa:</string>
+    <string name="null_string">null</string>
+    <string name="welcome_to">Karibu kwenye</string>
+    <string name="subtitle">Thibitisha Bidhaa za Kilimo kwa Uhakika</string>
+    <string name="history_subtitle">Tazama historia ya uhakiki wako wa awali na ripoti za kina</string>
+    <string name="track_your_scan_results">Fuata matokeo ya skani zako</string>
+    <string name="total_scans">Jumla ya Skani</string>
+    <string name="verified">Imehakikishwa</string>
+    <string name="failed">Imeshindikana</string>
+    <string name="all">Zote</string>
+    <string name="start_scanning_qr_codes_to_see_history">Anza skani QR code kuona historia</string>
+    <string name="loading_history">Inapakia historia…</string>
+</resources>

@@ -50,7 +50,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Verification History"
+                    android:text="@string/verification_history"
                     android:textColor="@color/md_theme_onPrimary"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Track your scan results"
+                    android:text="@string/track_your_scan_results"
                     android:textColor="@color/md_theme_onPrimary"
                     android:textSize="14sp"
                     android:alpha="0.8"
@@ -116,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Total Scans"
+                    android:text="@string/total_scans"
                     android:textColor="@color/md_theme_onSurface"
                     android:textSize="12sp"
                     android:fontFamily="@font/jakarta_medium" />
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Verified"
+                    android:text="@string/verified"
                     android:textColor="@color/md_theme_onSurface"
                     android:textSize="12sp"
                     android:fontFamily="@font/jakarta_medium" />
@@ -195,7 +195,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Failed"
+                    android:text="@string/failed"
                     android:textColor="@color/md_theme_onSurface"
                     android:textSize="12sp"
                     android:fontFamily="@font/jakarta_medium" />
@@ -242,21 +242,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="All" />
+                    android:text="@string/all" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipVerified"
-                    style="@style/Widget.Material3.Chip.Filter"
+                    style="@style/Widget.App.Chip.Filter.Jakarta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Verified" />
+                    android:text="@string/verified" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipFailed"
-                    style="@style/Widget.Material3.Chip.Filter"
+                    style="@style/Widget.App.Chip.Filter.Jakarta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Failed" />
+                    android:text="@string/failed" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -332,7 +332,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Start scanning QR codes to see history"
+            android:text="@string/start_scanning_qr_codes_to_see_history"
             android:textAlignment="center"
             android:textColor="@color/md_theme_onSurfaceVariant"
             android:textSize="14sp"
@@ -370,7 +370,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading history..."
+                android:text="@string/loading_history"
                 android:textColor="@color/md_theme_onSurface"
                 android:textSize="16sp"
                 android:fontFamily="@font/jakarta_medium" />
