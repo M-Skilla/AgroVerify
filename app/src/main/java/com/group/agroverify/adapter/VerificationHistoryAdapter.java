@@ -118,7 +118,7 @@ public class VerificationHistoryAdapter extends RecyclerView.Adapter<Verificatio
             // Status icon and text
             ivStatusIcon.setImageResource(R.drawable.ic_check_circle);
             ivStatusIcon.setColorFilter(itemView.getContext().getColor(android.R.color.holo_green_dark));
-            tvStatus.setText("Verification Successful");
+            tvStatus.setText(R.string.verification_successful);
             tvStatus.setTextColor(itemView.getContext().getColor(android.R.color.holo_green_dark));
 
             // Hide error container and action button
@@ -136,7 +136,7 @@ public class VerificationHistoryAdapter extends RecyclerView.Adapter<Verificatio
             // Status icon and text
             ivStatusIcon.setImageResource(R.drawable.ic_error);
             ivStatusIcon.setColorFilter(itemView.getContext().getColor(android.R.color.holo_red_dark));
-            tvStatus.setText("Verification Failed");
+            tvStatus.setText(R.string.verification_failed);
             tvStatus.setTextColor(itemView.getContext().getColor(android.R.color.holo_red_dark));
 
             // Show error container with message

@@ -17,5 +17,19 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <!-- Fullscreen Dialog Style -->
+    <style name="Theme.AgroVerify.FullscreenDialog" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Make background transparent if you want the corners of the layout visible -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+
+
 </resources>
 

@@ -95,4 +95,29 @@
     <string name="all">Zote</string>
     <string name="start_scanning_qr_codes_to_see_history">Anza skani QR code kuona historia</string>
     <string name="loading_history">Inapakia historia…</string>
+    <string name="report_verification_issue">Ripoti Tatizo la Uhakikishaji</string>
+    <string name="product_details">Maelezo ya Bidhaa</string>
+    <string name="issue_type">Aina ya Tatizo</string>
+    <string name="suspected_counterfeit">Bidhaa Inayoshukiwa Bandia</string>
+    <string name="product_tampered">Bidhaa Imechezewa</string>
+    <string name="app_error">Hitilafu ya Programu</string>
+    <string name="other">Nyingine</string>
+    <string name="describe_the_issue_optional">Eleza tatizo (hiari)</string>
+    <string name="contact_email_optional">Namba ya simu ya mawasiliano (hiari)</string>
+    <string name="cancel">Ghairi</string>
+    <string name="verification_successful">Uhakikishaji Umefaulu</string>
+    <string name="verification_failed">Uhakikishaji Umeshindikana</string>
+    <string name="serial">Nambari ya Bidhaa: %1$s</string>
+    <string name="error">Hitilafu: %1$s</string>
+    <string name="clear">Futa</string>
+    <string name="clear_history">Futa Historia</string>
+    <string name="clear_history_msg">Je, una uhakika unataka kufuta historia yote ya uhakiki? Hatua hii haiwezi kubatilishwa.</string>
+    <string name="attach_image_optional">Ambatisha Picha (hiari)</string>
+    <string name="take_photo">Piga Picha</string>
+    <string name="choose_from_gallery">Chagua kutoka Kwenye Maktaba</string>
+    <string name="image_attached">Picha imambatishwa</string>
+    <string name="remove_image">Ondoa Picha</string>
+    <string name="select_image_source">Chagua Chanzo cha Picha</string>
+
+
 </resources>

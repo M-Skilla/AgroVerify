@@ -62,18 +62,25 @@ dependencies {
     // SwipeRefreshLayout dependency
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
-    // https://mvnrepository.com/artifact/com.airbnb.android/lottie
     implementation("com.airbnb.android:lottie:6.6.7")
 
-    // CameraX dependencies for QR scanning
-    implementation("androidx.camera:camera-core:1.3.1")
-    implementation("androidx.camera:camera-camera2:1.3.1")
-    implementation("androidx.camera:camera-lifecycle:1.3.1")
-    implementation("androidx.camera:camera-view:1.3.1")
+    // CameraX dependencies for QR scanning and image capture - Updated for compatibility
+    implementation("androidx.camera:camera-core:1.4.2")
+    implementation("androidx.camera:camera-camera2:1.4.2")
+    implementation("androidx.camera:camera-lifecycle:1.4.2")
+    implementation("androidx.camera:camera-view:1.4.2")
 
     // ML Kit for barcode scanning
     implementation("com.google.mlkit:barcode-scanning:17.3.0")
 
-    // Guava for ListenableFuture (required by CameraX)
-    implementation("com.google.guava:guava:32.1.3-android")
+    // Guava for ListenableFuture (required by CameraX) - Updated version
+    implementation("com.google.guava:guava:33.3.1-android")
+
+    // Image loading and handling
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
+    // Activity result contracts
+    implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 }

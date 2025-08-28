@@ -94,5 +94,29 @@
     <string name="failed">Failed</string>
     <string name="all">All</string>
     <string name="start_scanning_qr_codes_to_see_history">Start scanning QR codes to see history</string>
-    <string name="loading_history">Loading history...</string>
+    <string name="loading_history">Loading history…</string>
+    <string name="report_verification_issue">Report Verification Issue</string>
+    <string name="product_details">Product Details</string>
+    <string name="issue_type">Issue Type</string>
+    <string name="suspected_counterfeit">Suspected Counterfeit</string>
+    <string name="product_tampered">Product Tampered</string>
+    <string name="app_error">App Error</string>
+    <string name="other">Other</string>
+    <string name="describe_the_issue_optional">Describe the issue (optional)</string>
+    <string name="contact_email_optional">Contact email (optional)</string>
+    <string name="attach_image_optional">Attach Image (Optional)</string>
+    <string name="image_attached">Image attached</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="remove_image">Remove Image</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear_history">Clear History</string>
+    <string name="clear_history_msg">Are you sure you want to clear all verification history? This action cannot be undone.</string>
+    <string name="select_image_source">Select Image Source</string>
+    <string name="clear">Clear</string>
+    <string name="serial">Serial: %1$s</string>
+    <string name="error">Error: %1$s</string>
+    <string name="verification_failed">Verification failed</string>
+    <string name="verification_successful">Verification Successful</string>
+    <string name="capture" translatable="false">Capture</string>
 </resources>
