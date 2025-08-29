@@ -119,4 +119,14 @@
     <string name="verification_failed">Verification failed</string>
     <string name="verification_successful">Verification Successful</string>
     <string name="capture" translatable="false">Capture</string>
+
+    <!-- Login screen strings -->
+    <string name="agriverify_logo">AgriVerify Logo</string>
+    <string name="distributor_nin">Distributor NIN</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="need_help">Need help? </string>
+    <string name="contact_support">Contact Support</string>
+
 </resources>
