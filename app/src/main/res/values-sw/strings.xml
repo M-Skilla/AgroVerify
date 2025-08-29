@@ -119,5 +119,13 @@
     <string name="remove_image">Ondoa Picha</string>
     <string name="select_image_source">Chagua Chanzo cha Picha</string>
 
+    <!-- Login screen strings -->
+    <string name="agriverify_logo">Nembo ya AgriVerify</string>
+    <string name="distributor_nin">NIN ya Msambazaji</string>
+    <string name="password">Nenosiri</string>
+    <string name="login">INGIA</string>
+    <string name="forgot_password">Umesahau Nenosiri?</string>
+    <string name="need_help">Unahitaji msaada? </string>
+    <string name="contact_support">Wasiliana na Msaada</string>
 
 </resources>
