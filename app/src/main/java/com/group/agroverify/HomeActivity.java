@@ -1,8 +1,10 @@
 package com.group.agroverify;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,10 @@ import com.group.agroverify.utils.LocaleHelper;
 public class HomeActivity extends AppCompatActivity {
 
     private ShapeableImageView languageBtn;
+    private TextView welcomeText;
+    private SharedPreferences sharedPreferences;
+    private String distributorId;
+    private String distributorName = "";
 
     @Override
     protected void attachBaseContext(android.content.Context newBase) {
@@ -35,19 +41,46 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         initializeViews();
+        loadDistributorInfo();
         setupClickListeners();
         updateLanguageButton();
+        updateWelcomeText();
     }
 
     private void initializeViews() {
         languageBtn = findViewById(R.id.languageBtn);
+        welcomeText = findViewById(R.id.welcomeText); // This may need to be added to layout
+    }
+
+    private void loadDistributorInfo() {
+        sharedPreferences = getSharedPreferences("DistributorPrefs", MODE_PRIVATE);
+
+        // Get distributor info from intent (new login) or SharedPreferences (existing session)
+        Intent intent = getIntent();
+        if (intent.hasExtra("distributorId")) {
+            distributorId = intent.getStringExtra("distributorId");
+            distributorName = intent.getStringExtra("distributorName");
+        } else {
+            distributorId = sharedPreferences.getString("distributorId","");
+            distributorName = sharedPreferences.getString("distributorName","");
+        }
+    }
+
+    private void updateWelcomeText() {
+        if (welcomeText != null && !distributorName.isEmpty()) {
+            welcomeText.setText("Welcome, " + distributorName);
+        }
     }
 
     private void setupClickListeners() {
         // QR Code Scan Button
         MaterialCardView scanQrCard = findViewById(R.id.scanQrCard);
         scanQrCard.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, QrScanActivity.class);
+            Intent intent;
+                // Use distributor-specific QR scan activity
+                intent = new Intent(HomeActivity.this, QrScanActivity.class);
+                intent.putExtra("distributorId", distributorId);
+                intent.putExtra("distributorName", distributorName);
             startActivity(intent);
         });
 

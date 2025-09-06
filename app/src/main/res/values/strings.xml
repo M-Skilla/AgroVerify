@@ -2,6 +2,10 @@
     <string name="app_name">AgriVerify</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="dont_have_account" translatable="false">Don\'t have an account?</string>
+    <string name="sign_up" translatable="false">Sign Up</string>
+    <string name="logging_in" translatable="false">Logging in...</string>
+
     <!-- No Internet Dialog strings -->
     <string name="no_internet_connection">No Internet Connection</string>
     <string name="no_internet_message">Please check your internet connection and try again. Make sure your device is connected to Wi-Fi or mobile data.</string>
